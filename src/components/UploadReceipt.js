@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const UploadReceipt = ({ onNext }) => {
+const UploadReceipt = ({ onParsed }) => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [scannedItems, setScannedItems] = useState([]);
-  
+  const navigate = useNavigate();
+
 
   const uploadReceipt=(e)=> {
     const file = e.target.files[0];
@@ -98,7 +99,8 @@ const UploadReceipt = ({ onNext }) => {
         setError('No items found in receipt. Please try a clearer image.');
       } else {
         setScannedItems(parsedItems);
-        onNext(parsedItems);
+        navigate('/receipts', { state: { receiptData: parsedItems } });
+
 
       }
     } catch (err) {
