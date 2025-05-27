@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-
-const Receipts = () => {
+const Receipts=()=>{
   const location=useLocation();
   const receiptData=location.state?.receiptData || [];
-  const [items, setItems] = useState(receiptData);
-  const [tip, setTip] = useState(0);
-  const [tax, setTax] = useState(0);
+  const [items, setItems] =useState(receiptData);
+  const [tip, setTip] =useState(0);
+  const navigate=useNavigate();
+  const [tax, setTax] =useState(0);
 
   const handleItemChange = (index, key, value) => {
     const newItems = [...items];
@@ -16,10 +17,9 @@ const Receipts = () => {
   };
 
   const addItem = () => setItems([...items, { item: '', price: 0 }]);
-  const removeItem = (index) => setItems(items.filter((_, i) => i !== index));
+  const removeItem=(index) => setItems(items.filter((_, i) => i !== index));
 
-  const total = items.reduce((sum, item) => sum + parseFloat(item.price || 0), 0) + parseFloat(tip || 0) + parseFloat(tax || 0);
-
+  const total=items.reduce((sum, item) => sum+parseFloat(item.price ||0),0)+parseFloat(tip || 0) + parseFloat(tax || 0);
   return (
     <div style={{ backgroundColor:'#E1DACA', textAlign: 'center', width:'100%', height:'100vh', padding:'20px'  }}>
       <h2>Receipt Items</h2>
@@ -52,7 +52,8 @@ const Receipts = () => {
           </label>
           </div>
          <h3 style={{ marginTop: '20px' }}>Total: Rs. {total.toFixed(2)}</h3>
-         <button style={{ backgroundColor: '#CC5500', width: '50%', height: '50px', borderRadius: '15px', color: 'white', fontSize: '15px', padding: '5px', borderStyle: 'none' }}>
+         <button style={{ backgroundColor: '#CC5500', width: '50%', height: '50px', borderRadius: '15px', color: 'white', fontSize: '15px', padding: '5px', borderStyle: 'none' }}
+         onClick={()=>navigate('/AddPersons', {state:{items, tip, tax,total}})}>
            Continue
          </button>
         </div>

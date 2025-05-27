@@ -25,7 +25,7 @@ const UploadReceipt = ({ onParsed }) => {
     new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => {
+      reader.onload = () =>  {
         const result=reader.result;
         if(typeof result==='string' && result.includes(',')){
             resolve(result.split(',')[1]);
@@ -60,7 +60,6 @@ const UploadReceipt = ({ onParsed }) => {
 
     try {
       const base64 = await convertToBase64(image);
-
      const response = await axios.post(
   'https://api.together.xyz/v1/chat/completions',
   {
