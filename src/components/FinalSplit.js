@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const FinalSplit = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { items = [], tip = 0, tax = 0, total = 0, persons = [], assignments = {} } = location.state || {};
+  const { items = [], tip = 0, tax = 0, persons = [], assignments = {} } = location.state || {};
   const personTotals = Array(persons.length).fill(0);
 
   items.forEach((item, index) => {

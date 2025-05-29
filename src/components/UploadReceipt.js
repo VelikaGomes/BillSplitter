@@ -7,7 +7,7 @@ const UploadReceipt = ({ onParsed }) => {
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [scannedItems, setScannedItems] = useState([]);
+  const [scannedItems] = useState([]);
   const navigate = useNavigate();
 
 
@@ -17,7 +17,7 @@ const UploadReceipt = ({ onParsed }) => {
       setImage(file);
       setPreview(URL.createObjectURL(file));
       setError('');
-      setScannedItems([]);
+      scannedItems([]);
     }
   };
 
@@ -97,7 +97,7 @@ const UploadReceipt = ({ onParsed }) => {
       if (parsedItems.length === 0) {
         setError('No items found in receipt. Please try a clearer image.');
       } else {
-        setScannedItems(parsedItems);
+        scannedItems(parsedItems);
         navigate('/receipts', { state: { receiptData: parsedItems } });
 
 
