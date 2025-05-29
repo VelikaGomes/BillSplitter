@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const Receipts=()=>{
 
   const total=items.reduce((sum, item) => sum+parseFloat(item.price ||0),0)+parseFloat(tip || 0) + parseFloat(tax || 0);
   return (
-    <div style={{ backgroundColor:'#E1DACA', textAlign: 'center', width:'100%', height:'100vh', padding:'20px'  }}>
+    <div style={{ backgroundColor:'#E1DACA', textAlign: 'center', width:'100%', height:'700vh', padding:'20px'  }}>
       <h2>Receipt Items</h2>
       <p>List all the items on your receipt</p>
 

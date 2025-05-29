@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation , useNavigate} from 'react-router-dom';
 
 const AddPersons=() => {
   const location=useLocation();
@@ -7,6 +7,7 @@ const AddPersons=() => {
   const [persons, setPersons]=useState([{ name: ""}]);
   const [assignments, setAssignments]=useState({});
   const addPerson = () => setPersons([...persons, { name: ""}]);
+  const navigate=useNavigate();
 
   const removePerson = (index) => {
     if (persons.length === 1) return;
@@ -28,6 +29,29 @@ const AddPersons=() => {
         return {...prev, [itemIndex]: updated};
     });
   };
+
+  const splitEven=()=>{
+    const newAssignments={};
+    items.forEach((_, itemIndex)=>{
+      newAssignments[itemIndex]=persons.map((_, personIndex)=> personIndex);
+    });
+    setAssignments(newAssignments);
+  };
+
+  const continueButton =()=>{
+  
+    navigate('/FinalSplit',{
+      state: {items, tip, tax, total, persons, assignments}
+    });
+  };
+
+   const canContinue = () => {
+    const hasValidNames = persons.length>0;
+    const hasAssignments = Object.keys(assignments).some(
+      itemIndex => assignments[itemIndex] && assignments[itemIndex].length > 0
+    );
+    return hasValidNames && hasAssignments;
+  };
   
   return (
     <div style={{  backgroundColor: '#E1DACA',textAlign: 'center', width: '100%', height: '130vh',padding: '20px', borderStyle:'none' }}>
@@ -39,8 +63,7 @@ const AddPersons=() => {
             <input type='text' value={person.name} onChange={(e) => addPersonList(index, e.target.value)} placeholder={`Person ${index + 1}`}
               style={{ flex: 1, padding: '10px', borderRadius: '10px', borderStyle: 'none', width: '25%'}}/>
             {persons.length > 1 && (
-              <button onClick={() => removePerson(index)}
-                style={{ background: 'none', border: 'none', color: 'black' }}>
+              <button onClick={() => removePerson(index)} style={{ background: 'none', border: 'none', color: 'black' }}>
                 Remove
               </button>
             )}
@@ -53,9 +76,7 @@ const AddPersons=() => {
         <div style={{ width: '100%', maxWidth: '600px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h3>Assigned Items</h3>
-            <button
-              style={{
-                backgroundColor: '#F1EFE9', padding: '8px', margin: '10px',borderRadius: '6px', border: '1px solid #ccc' }}>
+            <button onClick={splitEven} style={{ backgroundColor: '#F1EFE9', padding: '8px', margin: '10px',borderRadius: '6px', border: '1px solid #ccc' }}>
               Split evenly
             </button>
           </div>
@@ -85,7 +106,8 @@ const AddPersons=() => {
               </div>
             ))}
           </div>
-          <button style={{ backgroundColor: '#CC5500', width: '50%', height: '50px', borderRadius: '15px', color: 'white', padding: '5px', borderStyle: 'none',margin: '20px'}}>
+          <button onClick={continueButton} disabled={!canContinue} style={{ backgroundColor:'#CC5500', width: '50%', height: '50px', borderRadius: '15px', color: 'white', padding: '5px', borderStyle: 'none',margin: '20px',
+          cursor: canContinue()? 'pointer': 'not-allowed'}}>
             Continue
           </button>
         </div>
